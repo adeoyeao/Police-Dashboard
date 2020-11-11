@@ -1,0 +1,28 @@
+.loginbutton {
+      button {
+            min-width: 220px;
+            padding: 0.75rem;
+            text-transform: capitalize;
+            display: block;
+            margin: 0 auto;
+            cursor: pointer;
+            border-radius: 1rem;
+            outline: none;
+            appearance: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: #008DD5;
+            transition: background 0.4s ease-in-out;
+            &:hover {
+                  background: #F56476;
+            }
+
+            p {
+                  padding-left: 0.5rem;
+            }
+      }
+}
+
