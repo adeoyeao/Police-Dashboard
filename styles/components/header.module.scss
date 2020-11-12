@@ -1,0 +1,39 @@
+.header {
+      background: #373F51;
+      padding: 0.5rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+
+      button {
+            padding: 0.75rem 1.5rem;
+            text-transform: capitalize;
+            cursor: pointer;
+            border-radius: 1.5rem;
+            outline: none;
+            appearance: none;
+            border: none;
+            color: white;
+            background: #008DD5;
+            transition: background 0.4s ease-in-out linear;
+            &:hover {
+                  background: #F56476
+            }
+      }
+}
+
+@media screen and (min-width: 1200px) {
+      .header {
+            height: 100%;
+            width: 10rem;
+            padding: 1rem 0;
+            grid-template-columns: unset;
+            grid-template-rows: 1fr auto;
+            align-items: start;
+            justify-items: center;
+      }
+}

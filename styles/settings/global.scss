@@ -7,3 +7,13 @@
       font-family: "Montserrat";
       font-size: 16px;
 }
+
+section {
+      padding: 6rem 5vw;
+}
+
+@media screen and (min-width: 1200px) {
+      section {
+            padding: 2rem 5vw 2rem calc(10rem + 5vw)
+      }
+}

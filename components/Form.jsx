@@ -51,7 +51,7 @@ const Form = () => {
             type !== "local" && router.push(`/auth/${type}`)
       }
 
-      const register = () => setLogin(false)
+      const register = () => setLogin(!login)
 
       return (
             <div className={styles.form}>
@@ -71,7 +71,7 @@ const Form = () => {
                         type="local"
                         login={login}/>
                   </form>
-      { login && <p onClick={register}>Not Registered? <span>Join Now</span></p> }
+      { login ? <p onClick={register}>Not Registered? <span>Join Now</span></p> : <p onClick={register}>Already Registered? <span>Login</span></p> }
                   <LoginButton 
                   type="facebook"
                   handleClick={oauth}
