@@ -1,9 +1,21 @@
-import styles from "../styles/layouts/crimes.module.scss"
+import styles from "../styles/layouts/dashboard.module.scss"
+import Chart from "./Chart"
+import Map from "./Map"
+import Stat from "./Stat"
 
 const Crimes = () => {
       return (
-            <section className={styles.crimes}>
-                  <h1> I Heart Crimes </h1>
+            <section className={styles.dashboard}>
+                  <Stat 
+                  head="Statistic"/>
+                  <Stat 
+                  head="Statistic"/>
+                  <Stat 
+                  head="Statistic"/>
+                  <Stat 
+                  head="Statistic"/>
+                  <Map />
+                  <Chart />
             </section>
       )
 }

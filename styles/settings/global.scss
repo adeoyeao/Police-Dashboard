@@ -9,7 +9,13 @@
 }
 
 section {
-      padding: 6rem 5vw;
+      padding: calc(64px + 5vw) 5vw calc(47px + 5vw) 5vw;
+}
+
+@media screen and (min-width: 700px) {
+      section {
+            padding: 7rem 5vw 50px 5vw;
+      }
 }
 
 @media screen and (min-width: 1200px) {

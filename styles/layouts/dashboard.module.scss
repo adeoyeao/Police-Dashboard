@@ -1,0 +1,20 @@
+.dashboard {
+      display: grid;
+      grid-gap: 1.5rem;
+      min-height: 100vh;
+      background: #CCE3DE;
+}
+
+@media screen and (min-width: 700px) {
+      .dashboard {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr) repeat(2, 1.5fr)
+      }
+}
+
+@media screen and (min-width: 1200px) {
+      .dashboard {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr 1.5fr
+      }
+} 
