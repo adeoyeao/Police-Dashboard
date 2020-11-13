@@ -35,6 +35,7 @@ nextApp.prepare()
       }
 
       app.use(require("./routes/authentication"))
+      app.use(require("./routes/data"))
       app.use("/dashboard", restrictAccess)
       app.use(/^\/$/, allowAccess)
 

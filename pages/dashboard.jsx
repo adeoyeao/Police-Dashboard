@@ -18,7 +18,6 @@ const Dashboard = () => {
                   view === "neighbourhood" ? 
                   <Neighbourhood /> :
                   <StopSearch /> }
-                  
             </main>
       )
 }

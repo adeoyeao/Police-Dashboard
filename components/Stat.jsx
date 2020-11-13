@@ -2,12 +2,9 @@ import styles from "../styles/components/stat.module.scss"
 
 const Stat = (props) => {
       return (
-            <span>
                   <article className={styles.stat}>
+                        <h3>{props.head}</h3>
                   </article>
-                  <h3>{props.head}</h3>
-            </span>
-
       )
 }
 
