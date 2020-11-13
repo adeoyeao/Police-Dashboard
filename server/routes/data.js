@@ -60,15 +60,25 @@ router.get("/crimes", async (req, res) => {
 router.get("/neighbourhood", async (req, res) => {
       const [lat, lng] = await ipAddress(req)
       const results = await fetch(`https://data.police.uk/api/locate-neighbourhood?q=${lat},${lng}`)
-      const data = await results.json()
-      res.json({ message: "Neighbourhood Dashboard", data: data })
+      const {force, neighbourhood} = await results.json()
+      const nbhdResults = await fetch(`https://data.police.uk/api/${force}/${neighbourhood}`)
+      const nbhdData = await nbhdResults.json()
+      const { twitter, facebook, telephone } = await nbhdData.contact_details
+      
+      res.json({ message: "Neighbourhood Dashboard", force: force, twitter: twitter, facebook: facebook, phone: telephone })
 })
 
 router.get("/stopsearch", async (req, res) => {
       const [lat, lng] = await ipAddress(req)
       const results = await fetch(`https://data.police.uk/api/stops-street?lat=${lat}&lng=${lng}`)
       const data = await results.json()
-      res.json({ message: "Stop and Search Dashboard", data: data })
+
+      const total = data.length
+      const male = `${Math.round(data.filter(x => x.gender == "Male").length/total * 100)}%`
+      const youth = data.filter(x => x.age_range == "18-24" || x.age_rage == "10-17").length
+      const vehicles = data.filter(x => x.type == "Vehicle search" || x.type === "Person and Vehicle search").length
+
+      res.json({ message: "Stop and Search Dashboard", total: total, male: male, youth: youth, vehicles: vehicles})
 })
 
 module.exports = router

@@ -29,14 +29,20 @@ const Crimes = () => {
 
       return (
             <section className={styles.dashboard}>
+                  <h1>Crime Stats in Your Local Area</h1>
+                  <h4>Update to date as of . Note: Outcomes data is incomplete</h4>
                   <Stat 
-                  head={data.total}/>
+                  stat={data.total}
+                  head="Total Crimes" />
                   <Stat 
-                  head={data.pending}/>
+                  stat={data.pending}
+                  head="Pending Outcome"/>
                   <Stat 
-                  head={data.sentenced}/>
+                  stat={data.sentenced}
+                  head="Defendants Found Guilty"/>
                   <Stat 
-                  head={data.notGuilty}/>
+                  stat={data.notGuilty}
+                  head="No Conviction"/>
                   <Map />
                   <Chart />
                   {loading && <Loader />}
