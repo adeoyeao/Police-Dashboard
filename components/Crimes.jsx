@@ -18,7 +18,8 @@ const Crimes = () => {
                   fetch("/crimes")
                   .then(res => res.json())
                   .then(data => {
-                        dispatch(crimeSuccess(data.totalCrimes, data.pending, data.sentenced, data.notGuilty))
+                        dispatch(crimeSuccess(data.lat, data.lng, data.totalCrimes, data.pending, data.sentenced, data.notGuilty, data.markers))
+                        console.log(data.markers)
                   })
                   .catch(err => {
                         console.error(err)
@@ -43,7 +44,9 @@ const Crimes = () => {
                   <Stat 
                   stat={data.notGuilty}
                   head="No Conviction"/>
-                  <Map />
+                  <Map
+                  type="crimes"
+                  />
                   <Chart />
                   {loading && <Loader />}
             </section>

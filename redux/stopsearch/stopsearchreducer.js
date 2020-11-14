@@ -16,10 +16,13 @@ const searchReducer = (state = initialState , action ) => {
                   ...state,
                   loading: false,
                   data: {
+                        lat: action.lat,
+                        lng: action.lng,
                         total: action.total,
                         male: action.male,
                         youth: action.youth,
-                        vehicles: action.vehicles
+                        vehicles: action.vehicles,
+                        markers: action.markers
                   }
             }
             case FETCH_SEARCH_FAILURE: return {

@@ -19,8 +19,8 @@ const StopSearch = () => {
                   fetch("/stopsearch")
                   .then(res => res.json())
                   .then(results => {
-                        const { total, male, youth, vehicles } = results
-                        dispatch(searchSuccess(total, male, youth, vehicles))
+                        const { lat, lng, total, male, youth, vehicles, markers } = results
+                        dispatch(searchSuccess(lat, lng, total, male, youth, vehicles, markers))
                   })
                   .catch(err => {
                         console.log(err)
@@ -45,7 +45,7 @@ const StopSearch = () => {
                   <Stat 
                   stat={data.vehicles}
                   head="Total Vehicle Searches"/>
-                  <Map />
+                  <Map type="stopsearch"/>
                   <Chart />
             </section>
       )

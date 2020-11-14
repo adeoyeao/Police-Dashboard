@@ -17,10 +17,13 @@ const crimeReducer = (state = initialState, action ) => {
                   ...state,
                   loading: false,
                   data: {
+                        lat: action.lat,
+                        lng: action.lng,
                         total: action.total,
                         pending: action.pending,
                         sentenced: action.sentenced,
-                        notGuilty: action.notGuilty
+                        notGuilty: action.notGuilty,
+                        markers: action.markers
                   }
             }
             case FETCH_CRIME_FAILURE: return {

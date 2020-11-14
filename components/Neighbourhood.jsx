@@ -18,8 +18,8 @@ const Neighbourhood = () => {
                   fetch("/neighbourhood")
                   .then(res => res.json())
                   .then(results => {
-                        const { force, twitter, facebook, phone } = results
-                        dispatch(nbhdSuccess(force, twitter, facebook, phone))
+                        const { lat, lng, force, twitter, facebook, phone, markers } = results
+                        dispatch(nbhdSuccess(lat, lng, force, twitter, facebook, phone, markers))
                   })
                   .catch(err => {
                         console.error(err)
@@ -44,7 +44,7 @@ const Neighbourhood = () => {
                   <Stat 
                   stat={data.phone ? data.phone : "No Phone Number"}
                   head="Phone Number"/>
-                  <Map />
+                  <Map type="neighbourhood"/>
                   <Chart />
                   { loading && <Loader />}
             </section>

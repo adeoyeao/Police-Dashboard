@@ -8,11 +8,15 @@ router.use(express.json())
 router.use(express.urlencoded({ extended: true}))
 
 const ipAddress = async (req) => {
-      const ip =  `84.67.119.214` //req.clientIp
-      const url = `https://geo.ipify.org/api/v1?apiKey=${process.env.GEOIPIFY_API_KEY}&ipAddress=${ip}`
+      try {
+      const ip =  `84.65.117.7` //req.clientIp
+      const url = `http://api.ipstack.com/${ip}?access_key=${process.env.IPSTACK}`
       const results = await fetch(url)
       const data = await results.json()
-      return [data.location.lat, data.location.lng]
+      return [data.latitude, data.longitude]
+      } catch {
+            return [51.505, -0.09]
+      }
 }
 
 router.get("/crimes", async (req, res) => {
@@ -54,7 +58,9 @@ router.get("/crimes", async (req, res) => {
             x.outcome_status.category === "Further investigation is not in the public interest" ||
             x.outcome_status.category === "Formal action is not in the public interest").length
 
-      res.json({ message: "Crimes Dashboard", totalCrimes: totalCrimes, pending: pending, sentenced: sentenced, notGuilty: notGuilty, item: data[2050] })
+      const markers = data.map(crime => ({category: crime.category, lat: crime.location.latitude, lng: crime.location.longitude }))
+
+      res.json({ lat: lat, lng: lng, totalCrimes: totalCrimes, pending: pending, sentenced: sentenced, notGuilty: notGuilty, markers: markers })
 })
 
 router.get("/neighbourhood", async (req, res) => {
@@ -64,8 +70,10 @@ router.get("/neighbourhood", async (req, res) => {
       const nbhdResults = await fetch(`https://data.police.uk/api/${force}/${neighbourhood}`)
       const nbhdData = await nbhdResults.json()
       const { twitter, facebook, telephone } = await nbhdData.contact_details
+
+      const markers = [{category: "Police Station HQ", lat: nbhdData.centre.latitude, lng: nbhdData.centre.longitude}]
       
-      res.json({ message: "Neighbourhood Dashboard", force: force, twitter: twitter, facebook: facebook, phone: telephone })
+      res.json({ lat: lat, lng: lng, force: force, twitter: twitter, facebook: facebook, phone: telephone, markers: markers })
 })
 
 router.get("/stopsearch", async (req, res) => {
@@ -78,7 +86,9 @@ router.get("/stopsearch", async (req, res) => {
       const youth = data.filter(x => x.age_range == "18-24" || x.age_rage == "10-17").length
       const vehicles = data.filter(x => x.type == "Vehicle search" || x.type === "Person and Vehicle search").length
 
-      res.json({ message: "Stop and Search Dashboard", total: total, male: male, youth: youth, vehicles: vehicles})
+      const markers = data.map(crime => ({category: `Object of Search: ${crime.object_of_search}`, lat: crime.location.latitude, lng: crime.location.longitude}))
+
+      res.json({ lat: lat, lng: lng, total: total, male: male, youth: youth, vehicles: vehicles, markers: markers})
 })
 
 module.exports = router

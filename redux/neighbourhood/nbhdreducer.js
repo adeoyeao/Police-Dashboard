@@ -16,10 +16,13 @@ const nbhdReducer = (state = initialState, action) => {
                   ...state,
                   loading: false,
                   data: {
+                        lat: action.lat,
+                        lng: action.lng,
                         force: action.force,
                         twitter: action.twitter,
                         facebook: action.facebook,
-                        phone: action.phone
+                        phone: action.phone,
+                        markers: action.markers
                   }
             }
             case FETCH_NBHD_FAILURE: return {
