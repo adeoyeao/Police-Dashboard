@@ -60,7 +60,11 @@ router.get("/crimes", async (req, res) => {
 
       const markers = data.map(crime => ({category: crime.category, lat: crime.location.latitude, lng: crime.location.longitude }))
 
-      res.json({ lat: lat, lng: lng, totalCrimes: totalCrimes, pending: pending, sentenced: sentenced, notGuilty: notGuilty, markers: markers })
+      const categories = data.map(crime => crime.category)
+      const categoriesSet = new Set(categories)
+      const chartData = [...categoriesSet].map(x => [x, data.filter(y => y.category === x).length])
+
+      res.json({ lat: lat, lng: lng, totalCrimes: totalCrimes, pending: pending, sentenced: sentenced, notGuilty: notGuilty, markers: markers, chartData: chartData })
 })
 
 router.get("/neighbourhood", async (req, res) => {
@@ -71,9 +75,16 @@ router.get("/neighbourhood", async (req, res) => {
       const nbhdData = await nbhdResults.json()
       const { twitter, facebook, telephone } = await nbhdData.contact_details
 
+      const officerResults = await fetch(`https://data.police.uk/api/forces/${force}/people`)
+      const officerData = await officerResults.json()
+
+      const ranks = officerData.map(officer => officer.rank)
+      const rankSet = new Set(ranks)
+      const chartData = [...rankSet].map(x => [x, officerData.filter(y => y.rank === x).length])
+
       const markers = [{category: "Police Station HQ", lat: nbhdData.centre.latitude, lng: nbhdData.centre.longitude}]
       
-      res.json({ lat: lat, lng: lng, force: force, twitter: twitter, facebook: facebook, phone: telephone, markers: markers })
+      res.json({ lat: lat, lng: lng, force: force, twitter: twitter, facebook: facebook, phone: telephone, markers: markers, chartData: chartData })
 })
 
 router.get("/stopsearch", async (req, res) => {
@@ -88,7 +99,11 @@ router.get("/stopsearch", async (req, res) => {
 
       const markers = data.map(crime => ({category: `Object of Search: ${crime.object_of_search}`, lat: crime.location.latitude, lng: crime.location.longitude}))
 
-      res.json({ lat: lat, lng: lng, total: total, male: male, youth: youth, vehicles: vehicles, markers: markers})
+      const ethnicity = data.map(search => search.self_defined_ethnicity)
+      const ethnicSet = new Set(ethnicity)
+      const chartData = [...ethnicSet].map(x => [x, data.filter(y => y.self_defined_ethnicity === x).length])
+
+      res.json({ lat: lat, lng: lng, total: total, male: male, youth: youth, vehicles: vehicles, markers: markers, chartData: chartData})
 })
 
 module.exports = router

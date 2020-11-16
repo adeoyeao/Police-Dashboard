@@ -5,12 +5,14 @@ import Stat from "./Stat"
 import Loader from "./Loader"
 
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { nbhdLoading, nbhdSuccess, nbhdFailure } from "../redux/actions"
 
 const Neighbourhood = () => {
       const dispatch = useDispatch()
       const { loading, data, error } = useSelector(state => state.neighbourhood)
+      const [ labels, setLabels ] = useState()
+      const [ dataset, setDataset ] = useState()
 
       useEffect(() => {
             if(!data) {
@@ -18,8 +20,10 @@ const Neighbourhood = () => {
                   fetch("/neighbourhood")
                   .then(res => res.json())
                   .then(results => {
-                        const { lat, lng, force, twitter, facebook, phone, markers } = results
-                        dispatch(nbhdSuccess(lat, lng, force, twitter, facebook, phone, markers))
+                        const { lat, lng, force, twitter, facebook, phone, markers, chartData } = results
+                        dispatch(nbhdSuccess(lat, lng, force, twitter, facebook, phone, markers, chartData))
+                        setLabels(chartData.map(x => x[0]))
+                        setDataset(chartData.map(x => x[1]))
                   })
                   .catch(err => {
                         console.error(err)
@@ -31,7 +35,7 @@ const Neighbourhood = () => {
       return (
             <section className={styles.dashboard}>
                   <h1>Information on Your Local Police Force</h1>
-                  <h4>Update to date as of </h4>
+                  <h4>Data is released one month in arrears.</h4>
                   <Stat 
                   stat={data.force}
                   head="Local Force"/>
@@ -45,7 +49,11 @@ const Neighbourhood = () => {
                   stat={data.phone ? data.phone : "No Phone Number"}
                   head="Phone Number"/>
                   <Map type="neighbourhood"/>
-                  <Chart />
+                  <Chart 
+                  type="doughnut"
+                  name="Breakdown of Senior Officers"
+                  dataset={dataset}
+                  labels={labels}/>
                   { loading && <Loader />}
             </section>
       )

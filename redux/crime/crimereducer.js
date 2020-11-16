@@ -23,7 +23,8 @@ const crimeReducer = (state = initialState, action ) => {
                         pending: action.pending,
                         sentenced: action.sentenced,
                         notGuilty: action.notGuilty,
-                        markers: action.markers
+                        markers: action.markers,
+                        chartData: action.chartData
                   }
             }
             case FETCH_CRIME_FAILURE: return {

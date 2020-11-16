@@ -22,7 +22,8 @@ const searchReducer = (state = initialState , action ) => {
                         male: action.male,
                         youth: action.youth,
                         vehicles: action.vehicles,
-                        markers: action.markers
+                        markers: action.markers,
+                        chartData: action.chartData
                   }
             }
             case FETCH_SEARCH_FAILURE: return {

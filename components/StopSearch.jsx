@@ -6,12 +6,14 @@ import Loader from "./Loader"
 
 import { searchLoading, searchSuccess, searchFailure } from "../redux/actions"
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 
 const StopSearch = () => {
       const dispatch = useDispatch()
       const { loading, data, error } = useSelector( state => state.search )
+      const [ labels, setLabels ] = useState()
+      const [ dataset, setDataset ] = useState()
 
       useEffect(() => {
             if(!data) {
@@ -19,8 +21,10 @@ const StopSearch = () => {
                   fetch("/stopsearch")
                   .then(res => res.json())
                   .then(results => {
-                        const { lat, lng, total, male, youth, vehicles, markers } = results
-                        dispatch(searchSuccess(lat, lng, total, male, youth, vehicles, markers))
+                        const { lat, lng, total, male, youth, vehicles, markers, chartData } = results
+                        dispatch(searchSuccess(lat, lng, total, male, youth, vehicles, markers, chartData))
+                        setLabels(chartData.map(x => x[0]))
+                        setDataset(chartData.map(x => x[1]))
                   })
                   .catch(err => {
                         console.log(err)
@@ -32,7 +36,7 @@ const StopSearch = () => {
       return (
             <section className={styles.dashboard}>
                   <h1>Stop and Search Stats in Your Local Area</h1>
-                  <h4>Update to date as of . Note: Outcomes data is incomplete</h4>
+                  <h4>Data is released one month in arrears. Note: Outcomes data is incomplete.</h4>
                   <Stat 
                   stat={data.total}
                   head="Total Stop and Searches"/>
@@ -46,7 +50,11 @@ const StopSearch = () => {
                   stat={data.vehicles}
                   head="Total Vehicle Searches"/>
                   <Map type="stopsearch"/>
-                  <Chart />
+                  <Chart 
+                  type="radar"
+                  name="Stop and Search by Ethnicity"
+                  dataset={dataset}
+                  labels={labels} />
             </section>
       )
 }

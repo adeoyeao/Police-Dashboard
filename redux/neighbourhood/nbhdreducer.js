@@ -22,7 +22,8 @@ const nbhdReducer = (state = initialState, action) => {
                         twitter: action.twitter,
                         facebook: action.facebook,
                         phone: action.phone,
-                        markers: action.markers
+                        markers: action.markers,
+                        chartData: action.chartData
                   }
             }
             case FETCH_NBHD_FAILURE: return {

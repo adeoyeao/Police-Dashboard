@@ -1,7 +1,7 @@
 import { FETCH_SEARCH_LOADING, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE } from "./stopsearchtypes"
 
 const searchLoading = () => ({ type: FETCH_SEARCH_LOADING })
-const searchSuccess = (lat, lng, total, male, youth, vehicles, markers) => ({
+const searchSuccess = (lat, lng, total, male, youth, vehicles, markers, chartData) => ({
       type: FETCH_SEARCH_SUCCESS,
       lat: lat,
       lng: lng,
@@ -9,7 +9,8 @@ const searchSuccess = (lat, lng, total, male, youth, vehicles, markers) => ({
       male: male,
       youth: youth,
       vehicles: vehicles,
-      markers: markers
+      markers: markers,
+      chartData: chartData
 })
 const searchFailure = (error) => ({
       type: FETCH_SEARCH_FAILURE,
