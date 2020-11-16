@@ -9,7 +9,7 @@ router.use(express.urlencoded({ extended: true}))
 
 const ipAddress = async (req) => {
       try {
-      const ip =  `84.65.117.7` //req.clientIp
+      const ip =  req.clientIp
       const url = `http://api.ipstack.com/${ip}?access_key=${process.env.IPSTACK}`
       const results = await fetch(url)
       const data = await results.json()
